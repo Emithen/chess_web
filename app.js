@@ -97,7 +97,7 @@ function dragDrop(e) {
 
     // 나머지 모든 조건에 대한 유효성 판정
     if(valid) {
-      e.target.parentNode.append(draggedElement);
+      e.target.append(draggedElement);
       changePlayer();
       return;
     }
@@ -105,17 +105,39 @@ function dragDrop(e) {
 
   // e.target.parentNode.append(draggedElement);
   // e.target.remove();
-
-  changePlayer();
 }
 
 function checkIfValid(target) {
   const targetId = Number(target.getAttribute('square-id')) || Number(target.parentNode.getAttribute('square-id'));
   const startId = Number(startPositionId);
-  const piece = draggedElement;
+  const piece = draggedElement.id;
   console.log('startId: ', startId);
   console.log('targetId: ',targetId);
   console.log('piece: ', piece);
+
+  switch(piece){
+    case 'pawn':
+      const starterRow = [8, 9, 10, 11, 12, 13, 14, 15];
+      if (starterRow.includes(startId) && startId + width * 2 === targetId) return true;
+      else if (startId + width === targetId) return true;
+      else if (startId + width - 1 === targetId && document.querySelector(`[square-id="${startId + width - 1}"]`).firstChild) return true;
+      else if (startId + width + 1 === targetId && document.querySelector(`[square-id="${startId + width + 1}"]`).firstChild) return true;
+      // 앙파상
+    case 'knight':
+      if(startId < 48){
+        if(startId % 8 !== 7){
+          if(targetId === startId + width * 2 + 1) return true;
+        }
+        if (startId % 8 !== 0){
+          if(targetId === startId + width * 2 - 1) return true;
+        }
+      }
+      if(startId < 56){
+        if(startId % 8 < 6){
+          
+        }
+      }
+  }
 }
 
 function changePlayer() {
