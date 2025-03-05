@@ -1,5 +1,6 @@
-import { gameState, playerDisplay, width } from "./app.js";
+import { gameState } from "./app.js";
 import checkIfValid from "./checkIfValid.js";
+import { changePlayer } from "./changePlayer.js";
 
 
 // drag 이벤트 시작 칸, 끝 칸
@@ -50,30 +51,6 @@ function dragDrop(e) {
       return;
     }
   }
-}
-
-function changePlayer() {
-  if (gameState.playerGo === "black") {
-    reverseIds();
-    gameState.playerGo = "white";
-    playerDisplay.textContent = "white";
-  } else {
-    revertIds();
-    gameState.playerGo = "black";
-    playerDisplay.textContent = "black";
-  }
-}
-
-function reverseIds() {
-  const allSquares = document.querySelectorAll(".square");
-  allSquares.forEach((square, i) =>
-    square.setAttribute("square-id", width * width - 1 - i)
-  );
-}
-
-function revertIds() {
-  const allSquares = document.querySelectorAll(".square");
-  allSquares.forEach((square, i) => square.setAttribute("square-id", i));
 }
 
 export { dragStart, dragOver, dragDrop };
