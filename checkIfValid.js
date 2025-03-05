@@ -56,11 +56,16 @@ function checkIfValid(start, target) {
     case "bishop":
       if (
         Math.abs(startRow - targetRow) === Math.abs(startCol - targetCol) &&
-        checkBlocking(startRow, startCol, targetRow, targetCol)
+        !checkDiagBlock(startRow, startCol, targetRow, targetCol)
       )
         return true;
       break;
     case "rook":
+      if (startRow === targetRow || startCol === targetCol)
+        if(!checkStraightBlock(startRow, startCol, targetRow, targetCol))
+          return true;
+      break;
+    case "queen":
   }
 }
 
@@ -68,7 +73,7 @@ function checkInBoard(a, b) {
   if (a >= 0 && a < 8 && b >= 0 && b < 8) return true;
 }
 
-function checkBlocking(startRow, startCol, targetRow, targetCol) {
+function checkDiagBlock(startRow, startCol, targetRow, targetCol) {
   let smallRow, smallCol, bigRow, bigCol;
 
   if (startRow < targetRow && startCol < targetCol) {
@@ -93,11 +98,49 @@ function checkBlocking(startRow, startCol, targetRow, targetCol) {
     bigCol = startCol;
   }
 
-  for (let i = smallRow + 1; i <= bigRow; i++) {
-    for (let j = smallCol + 1; i <= bigCol; i++) {
-      if (
-        document.querySelector(`[square-id="${pos_to_id(i, j)}"]`).firstChild
-      ) {
+  for (let i = smallRow + 1, j = smallCol + 1; i < bigRow, j < bigCol; i++, j++) {
+    if (
+      document.querySelector(`[square-id="${pos_to_id(i, j)}"]`).firstChild
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function checkStraightBlock(startRow, startCol, targetRow, targetCol){
+  let start, end, axis;
+
+  if (startRow === targetRow) {
+    axis = startRow;
+
+    if (startCol < targetCol) {
+      start = startCol;
+      end = targetCol;
+    } else if (startCol > targetCol) {
+      start = targetCol;
+      end = startCol;
+    }
+
+    for (let i = start + 1; i < end; i++) {
+      if (document.querySelector(`[square-id="${pos_to_id(axis, i)}"]`).firstChild) {
+        return true;
+      }
+    }
+  } else if (startCol === targetCol) {
+    axis = startCol;
+
+    if (startRow < targetRow) {
+      start = startRow;
+      end = targetRow;
+    } else if (startRow > targetRow) {
+      start = targetRow;
+      end = startRow;
+    }
+
+    for (let i = start + 1; i < end; i++) {
+      if (document.querySelector(`[square-id="${pos_to_id(i, axis)}"]`).firstChild) {
         return true;
       }
     }
