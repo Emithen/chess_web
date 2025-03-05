@@ -110,6 +110,13 @@ function dragDrop(e) {
 function checkIfValid(target) {
   const targetId = Number(target.getAttribute('square-id')) || Number(target.parentNode.getAttribute('square-id'));
   const startId = Number(startPositionId);
+  const startRow = Math.floor(startId / 8);
+  const startCol = startId % 8;
+  const targetRow = Math.floor(targetId / 8);
+  const targetCol = targetId % 8;
+
+  console.log(`(${startRow}, ${startCol}) -> (${targetRow}, ${targetCol})`);
+
   const piece = draggedElement.id;
   console.log('startId: ', startId);
   console.log('targetId: ',targetId);
@@ -123,21 +130,76 @@ function checkIfValid(target) {
       else if (startId + width - 1 === targetId && document.querySelector(`[square-id="${startId + width - 1}"]`).firstChild) return true;
       else if (startId + width + 1 === targetId && document.querySelector(`[square-id="${startId + width + 1}"]`).firstChild) return true;
       // 앙파상
+      break;
     case 'knight':
-      if(startId < 48){
-        if(startId % 8 !== 7){
-          if(targetId === startId + width * 2 + 1) return true;
-        }
-        if (startId % 8 !== 0){
-          if(targetId === startId + width * 2 - 1) return true;
-        }
+      if (startRow + 2 === targetRow){
+        if (startCol + 1 === targetCol) return true;
+        else if (startCol - 1 === targetCol) return true;
       }
-      if(startId < 56){
-        if(startId % 8 < 6){
-          
-        }
+      else if (startRow + 1 === targetRow) {
+        if (startCol + 2 === targetCol) return true;
+        else if (startCol -2 === targetCol) return true;
       }
+      else if (startRow - 2 === targetRow) {
+        if (startCol + 1 === targetCol) return true;
+        else if (startCol - 1 === targetCol) return true;
+      }
+      else if (startRow - 1 === targetRow) {
+        if (startCol + 2 === targetCol) return true;
+        else if (startCol - 2 === targetCol) return true;
+      }
+    break;
+    case 'bishop':
+      if(Math.abs(startRow - targetRow) === Math.abs(startCol - targetCol) && checkBlocking(startRow, startCol, targetRow, targetCol))
+        return true;
+    break;
+    case 'rook':
+
   }
+}
+
+function checkInBoard(a, b) {
+  if (a >= 0 && a < 8 && b >= 0 && b < 8) return true;
+}
+
+function checkBlocking(startRow, startCol, targetRow, targetCol) {
+  let smallRow, smallCol, bigRow, bigCol;
+
+  if(startRow < targetRow && startCol < targetCol){
+    smallRow = startRow;
+    bigRow = targetRow;
+    smallCol = startCol;
+    bigCol = targetCol;
+  } else if (startRow < targetRow && startCol > targetCol){
+    smallRow = startRow;
+    bigRow = targetRow;
+    smallCol = targetCol;
+    bigCol = startCol;
+  } else if (startRow > targetRow && startCol < targetCol){
+    smallRow = targetRow;
+    bigRow = startRow;
+    smallCol = startCol;
+    bigCol = targetCol;
+  } else if (startRow > targetRow && startCol > targetCol){
+    smallRow = targetRow;
+    bigRow = startRow;
+    smallCol = targetCol;
+    bigCol = startCol;
+  }
+
+  for (let i = smallRow + 1; i <= bigRow; i++) {
+    for (let j = smallCol + 1; i <= bigCol; i++) {
+      if (document.querySelector(`[square-id="${pos_to_id(i, j)}"]`).firstChild) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+function pos_to_id(row, col){
+  return row * 8 + col;
 }
 
 function changePlayer() {
