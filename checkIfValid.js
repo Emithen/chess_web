@@ -62,10 +62,22 @@ function checkIfValid(start, target) {
       break;
     case "rook":
       if (startRow === targetRow || startCol === targetCol)
-        if(!checkStraightBlock(startRow, startCol, targetRow, targetCol))
+        if (!checkStraightBlock(startRow, startCol, targetRow, targetCol))
           return true;
       break;
     case "queen":
+      if (
+        Math.abs(startRow - targetRow) === Math.abs(startCol - targetCol) &&
+        !checkDiagBlock(startRow, startCol, targetRow, targetCol)
+      ) {
+        return true;
+      } else if (startRow === targetRow || startCol === targetCol) {
+        if (!checkStraightBlock(startRow, startCol, targetRow, targetCol))
+          return true;
+      }
+      break;
+    case "king":
+
   }
 }
 
@@ -77,31 +89,53 @@ function checkDiagBlock(startRow, startCol, targetRow, targetCol) {
   let smallRow, smallCol, bigRow, bigCol;
 
   if (startRow < targetRow && startCol < targetCol) {
-    smallRow = startRow;
-    bigRow = targetRow;
-    smallCol = startCol;
-    bigCol = targetCol;
+    for (
+      let i = startRow + 1, j = startCol + 1;
+      i < targetRow, j < targetCol;
+      i++, j++
+    ) {
+      if (document.querySelector(`[square-id="${pos_to_id(i, j)}"]`).firstChild) {
+        return true;
+      }
+    }
   } else if (startRow < targetRow && startCol > targetCol) {
-    smallRow = startRow;
-    bigRow = targetRow;
-    smallCol = targetCol;
-    bigCol = startCol;
+    for (
+      let i = startRow + 1, j = startCol - 1;
+      i < targetRow, j < targetCol;
+      i++, j--
+    ) {
+      if (document.querySelector(`[square-id="${pos_to_id(i, j)}"]`).firstChild) {
+        return true;
+      }
+    }
   } else if (startRow > targetRow && startCol < targetCol) {
-    smallRow = targetRow;
-    bigRow = startRow;
-    smallCol = startCol;
-    bigCol = targetCol;
+    for (
+      let i = startRow - 1, j = startCol + 1;
+      i < targetRow, j < targetCol;
+      i--, j++
+    ) {
+      if (document.querySelector(`[square-id="${pos_to_id(i, j)}"]`).firstChild) {
+        return true;
+      }
+    }
   } else if (startRow > targetRow && startCol > targetCol) {
-    smallRow = targetRow;
-    bigRow = startRow;
-    smallCol = targetCol;
-    bigCol = startCol;
+    for (
+      let i = startRow - 1, j = startCol - 1;
+      i < targetRow, j < targetCol;
+      i--, j--
+    ) {
+      if (document.querySelector(`[square-id="${pos_to_id(i, j)}"]`).firstChild) {
+        return true;
+      }
+    }
   }
 
-  for (let i = smallRow + 1, j = smallCol + 1; i < bigRow, j < bigCol; i++, j++) {
-    if (
-      document.querySelector(`[square-id="${pos_to_id(i, j)}"]`).firstChild
-    ) {
+  for (
+    let i = smallRow + 1, j = smallCol + 1;
+    i < bigRow, j < bigCol;
+    i++, j++
+  ) {
+    if (document.querySelector(`[square-id="${pos_to_id(i, j)}"]`).firstChild) {
       return true;
     }
   }
@@ -109,7 +143,7 @@ function checkDiagBlock(startRow, startCol, targetRow, targetCol) {
   return false;
 }
 
-function checkStraightBlock(startRow, startCol, targetRow, targetCol){
+function checkStraightBlock(startRow, startCol, targetRow, targetCol) {
   let start, end, axis;
 
   if (startRow === targetRow) {
@@ -124,7 +158,9 @@ function checkStraightBlock(startRow, startCol, targetRow, targetCol){
     }
 
     for (let i = start + 1; i < end; i++) {
-      if (document.querySelector(`[square-id="${pos_to_id(axis, i)}"]`).firstChild) {
+      if (
+        document.querySelector(`[square-id="${pos_to_id(axis, i)}"]`).firstChild
+      ) {
         return true;
       }
     }
@@ -140,7 +176,9 @@ function checkStraightBlock(startRow, startCol, targetRow, targetCol){
     }
 
     for (let i = start + 1; i < end; i++) {
-      if (document.querySelector(`[square-id="${pos_to_id(i, axis)}"]`).firstChild) {
+      if (
+        document.querySelector(`[square-id="${pos_to_id(i, axis)}"]`).firstChild
+      ) {
         return true;
       }
     }
