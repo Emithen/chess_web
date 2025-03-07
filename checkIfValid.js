@@ -77,7 +77,8 @@ function checkIfValid(start, target) {
       }
       break;
     case "king":
-
+      if (Math.abs(startRow - targetRow) <= 1 && Math.abs(startCol - targetCol) <= 1)
+        return true;
   }
 }
 
