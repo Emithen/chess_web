@@ -1,4 +1,5 @@
 import { width } from "./app.js";
+import { pos_to_id } from "./util.js";
 
 function checkIfValid(start, target) {
   const targetId =
@@ -186,10 +187,6 @@ function checkStraightBlock(startRow, startCol, targetRow, targetCol) {
   }
 
   return false;
-}
-
-function pos_to_id(row, col) {
-  return row * 8 + col;
 }
 
 export default checkIfValid;
