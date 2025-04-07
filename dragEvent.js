@@ -1,7 +1,6 @@
-import { gameState } from "./app.js";
+import g from "./globalState.js";
 import checkIfValid from "./checkIfValid.js";
 import { changePlayer } from "./changePlayer.js";
-
 
 // drag 이벤트 시작 칸, 끝 칸
 let startPositionId = null;
@@ -21,10 +20,10 @@ function dragOver(e) {
 function dragDrop(e) {
   e.stopPropagation();
 
-  const correctGo = draggedPiece.firstChild.classList.contains(gameState.playerGo);
+  const correctGo = draggedPiece.firstChild.classList.contains(g.playerGo);
   const taken = e.target.classList.contains("piece");
   const valid = checkIfValid(startPositionId, e.target);
-  const opponentGo = gameState.playerGo === "white" ? "black" : "white";
+  const opponentGo = g.playerGo === "white" ? "black" : "white";
   const takenByOpponent = e.target.firstChild?.classList.contains(opponentGo);
 
   // 내 차례가 맞는 지 확인

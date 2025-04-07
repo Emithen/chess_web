@@ -78,7 +78,10 @@ function checkIfValid(start, target) {
       }
       break;
     case "king":
-      if (Math.abs(startRow - targetRow) <= 1 && Math.abs(startCol - targetCol) <= 1)
+      if (
+        Math.abs(startRow - targetRow) <= 1 &&
+        Math.abs(startCol - targetCol) <= 1
+      )
         return true;
   }
 }
@@ -96,7 +99,9 @@ function checkDiagBlock(startRow, startCol, targetRow, targetCol) {
       i < targetRow, j < targetCol;
       i++, j++
     ) {
-      if (document.querySelector(`[square-id="${pos_to_id(i, j)}"]`).firstChild) {
+      if (
+        document.querySelector(`[square-id="${pos_to_id(i, j)}"]`).firstChild
+      ) {
         return true;
       }
     }
@@ -106,7 +111,9 @@ function checkDiagBlock(startRow, startCol, targetRow, targetCol) {
       i < targetRow, j < targetCol;
       i++, j--
     ) {
-      if (document.querySelector(`[square-id="${pos_to_id(i, j)}"]`).firstChild) {
+      if (
+        document.querySelector(`[square-id="${pos_to_id(i, j)}"]`).firstChild
+      ) {
         return true;
       }
     }
@@ -116,7 +123,9 @@ function checkDiagBlock(startRow, startCol, targetRow, targetCol) {
       i < targetRow, j < targetCol;
       i--, j++
     ) {
-      if (document.querySelector(`[square-id="${pos_to_id(i, j)}"]`).firstChild) {
+      if (
+        document.querySelector(`[square-id="${pos_to_id(i, j)}"]`).firstChild
+      ) {
         return true;
       }
     }
@@ -126,7 +135,9 @@ function checkDiagBlock(startRow, startCol, targetRow, targetCol) {
       i < targetRow, j < targetCol;
       i--, j--
     ) {
-      if (document.querySelector(`[square-id="${pos_to_id(i, j)}"]`).firstChild) {
+      if (
+        document.querySelector(`[square-id="${pos_to_id(i, j)}"]`).firstChild
+      ) {
         return true;
       }
     }

@@ -1,13 +1,14 @@
-import { gameState, playerDisplay, width } from "./app.js";
+import { playerDisplay, width } from "./app.js";
+import g from "./globalState.js";
 
 export function changePlayer() {
-  if (gameState.playerGo === "black") {
+  if (g.playerGo === "black") {
     reverseIds();
-    gameState.playerGo = "white";
+    g.playerGo = "white";
     playerDisplay.textContent = "white";
   } else {
     revertIds();
-    gameState.playerGo = "black";
+    g.playerGo = "black";
     playerDisplay.textContent = "black";
   }
 }
