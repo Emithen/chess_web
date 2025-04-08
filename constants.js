@@ -1,0 +1,13 @@
+import { king, queen, rook, bishop, knight, pawn } from "./pieces.js";
+
+// prettier-ignore
+export const startPosition = [
+    rook, knight, bishop, queen, king, bishop, knight, rook,
+    pawn, pawn, pawn, pawn, pawn, pawn, pawn, pawn,
+    '','','','','','','','',
+    '','','','','','','','',
+    '','','','','','','','',
+    '','','','','','','','',
+    pawn, pawn, pawn, pawn, pawn, pawn, pawn, pawn,
+    rook, knight, bishop, queen, king, bishop, knight, rook,
+];

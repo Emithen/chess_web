@@ -1,23 +1,11 @@
-import { king, queen, rook, bishop, knight, pawn } from "./pieces.js";
 import { dragStart, dragOver, dragDrop } from "./dragEvent.js";
+import { startPosition } from "./constants.js";
 
 const gameBoard = document.querySelector("#gameboard");
 
-// prettier-ignore
-const startPieces = [
-    rook, knight, bishop, queen, king, bishop, knight, rook,
-    pawn, pawn, pawn, pawn, pawn, pawn, pawn, pawn,
-    '','','','','','','','',
-    '','','','','','','','',
-    '','','','','','','','',
-    '','','','','','','','',
-    pawn, pawn, pawn, pawn, pawn, pawn, pawn, pawn,
-    rook, knight, bishop, queen, king, bishop, knight, rook,
-];
-
 // 보드에 들어갈 칸 하나씩 배치 및 설정
 function createBoard() {
-  startPieces.forEach((startPiece, i) => {
+  startPosition.forEach((startPiece, i) => {
     // 칸 생성
     const square = document.createElement("div");
 
